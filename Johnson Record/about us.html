@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+<title>Johnson Record - About Us</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap');
+
+  /* Reset and base styles */
+  * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+  body {
+    font-family: 'Montserrat', sans-serif;
+    background: #121212;
+    color: #eee;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
+  a {
+    color: #e94560;
+    text-decoration: none;
+    transition: color 0.3s ease;
+  }
+  a:hover,
+  a:focus {
+    color: #ff3366;
+  }
+
+  /* Header */
+  header {
+    background-color: #1f1f1f;
+    padding: 15px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    border-bottom: 2px solid #e94560;
+  }
+
+  .logo {
+    font-weight: 700;
+    font-size: 1.4rem;
+    letter-spacing: 2px;
+    color: #e94560;
+    user-select: none;
+  }
+
+  nav {
+    flex-grow: 1;
+    text-align: center;
+  }
+
+  nav ul {
+    list-style: none;
+    display: inline-flex;
+    gap: 25px;
+  }
+  nav ul li {
+    font-weight: 600;
+    font-size: 1rem;
+  }
+  nav ul li a {
+    padding: 5px 8px;
+    border-radius: 4px;
+  }
+  nav ul li a:hover,
+  nav ul li a:focus {
+    background-color: #e94560;
+    color: #fff;
+  }
+  nav ul li a[aria-current="page"] {
+    background-color: #e94560;
+    color: #fff;
+    cursor: default;
+  }
+
+  /* Shopping Cart */
+  .cart-container {
+    position: relative;
+    cursor: pointer;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .cart-icon {
+    fill: #e94560;
+    width: 28px;
+    height: 28px;
+  }
+  .cart-badge {
+    position: absolute;
+    top: -6px;
+    right: -6px;
+    background: #ff3366;
+    color: white;
+    font-size: 0.65rem;
+    font-weight: 700;
+    border-radius: 50%;
+    padding: 2px 6px;
+    user-select: none;
+    pointer-events: none;
+  }
+
+  /* Cart dropdown */
+  .cart-dropdown {
+    position: absolute;
+    top: 40px;
+    right: 0;
+    width: 260px;
+    max-height: 300px;
+    overflow-y: auto;
+    background: #222;
+    border: 1px solid #e94560;
+    border-radius: 6px;
+    box-shadow: 0 10px 20px rgba(233, 69, 96, 0.4);
+    display: none;
+    flex-direction: column;
+    z-index: 101;
+  }
+  .cart-dropdown.active {
+    display: flex;
+  }
+  .cart-dropdown h4 {
+    padding: 12px;
+    border-bottom: 1px solid #e94560;
+    font-weight: 700;
+    font-size: 1.1rem;
+  }
+  .cart-item {
+    padding: 10px 15px;
+    border-bottom: 1px solid #333;
+    font-size: 0.9rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .cart-item:last-child {
+    border-bottom: none;
+  }
+  .cart-empty {
+    padding: 15px;
+    color: #bbb;
+    font-style: italic;
+    text-align: center;
+  }
+  .cart-total {
+    padding: 12px 15px;
+    font-weight: 700;
+    text-align: right;
+    border-top: 1px solid #e94560;
+    font-size: 1rem;
+  }
+  .remove-btn {
+    background: transparent;
+    border: none;
+    color: #ff3366;
+    cursor: pointer;
+    font-weight: 700;
+    font-size: 1rem;
+    line-height: 1;
+    user-select: none;
+  }
+  .remove-btn:hover,
+  .remove-btn:focus {
+    color: #e94560;
+  }
+
+  /* Main Content */
+  main {
+    flex-grow: 1;
+    padding: 50px 20px 80px;
+    max-width: 960px;
+    margin: 0 auto;
+  }
+
+  main h1 {
+    font-size: 2.5rem;
+    color: #e94560;
+    margin-bottom: 40px;
+    text-align: center;
+  }
+
+  /* Artist grid */
+  .artist-grid {
+    display: flex;
+    gap: 24px;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+  .artist-card {
+    position: relative;
+    width: 280px;
+    height: 350px;
+    border-radius: 12px;
+    overflow: hidden;
+    cursor: pointer;
+    box-shadow: 0 6px 15px rgba(233, 69, 96, 0.5);
+    background: #222;
+    transition: transform 0.3s ease;
+  }
+  .artist-card:focus-within,
+  .artist-card:hover {
+    transform: scale(1.05);
+    z-index: 10;
+  }
+
+  .artist-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  /* Overlay on hover or focus */
+  .artist-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(233, 69, 96, 0.85);
+    color: #fff;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 30px 20px;
+    text-align: center;
+    pointer-events: none;
+    border-radius: 12px;
+  }
+
+  .artist-card:focus-within .artist-overlay,
+  .artist-card:hover .artist-overlay {
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  .artist-name {
+    font-size: 1.6rem;
+    font-weight: 700;
+    margin-bottom: 12px;
+    letter-spacing: 1.2px;
+  }
+
+  .artist-info {
+    font-size: 1rem;
+    line-height: 1.4;
+    margin-bottom: 20px;
+    padding: 0 5px;
+  }
+
+  .artist-btn {
+    background-color: #fff;
+    color: #e94560;
+    text-transform: uppercase;
+    font-weight: 700;
+    padding: 10px 20px;
+    border-radius: 30px;
+    border: none;
+    font-size: 0.9rem;
+    cursor: pointer;
+    text-decoration: none;
+    user-select: none;
+    transition: background-color 0.3s ease, color 0.3s ease;
+  }
+  .artist-btn:hover,
+  .artist-btn:focus {
+    background-color: #ff3366;
+    color: #fff;
+  }
+
+
+  /* Accessibility: Focus outlines */
+  a:focus,
+  button:focus,
+  [tabindex]:focus {
+    outline: 3px solid #ff3366;
+    outline-offset: 3px;
+  }
+
+  /* Responsive for smaller devices */
+  @media (max-width: 700px) {
+    .artist-grid {
+      flex-direction: column;
+      align-items: center;
+      gap: 30px;
+    }
+    .artist-card {
+      width: 90vw;
+      height: 320px;
+    }
+  }
+
+  @media (max-width: 400px) {
+    header {
+      padding: 12px 15px;
+    }
+    .logo {
+      font-size: 1.2rem;
+    }
+    nav ul {
+      gap: 15px;
+    }
+    nav ul li {
+      font-size: 0.9rem;
+    }
+    .cart-dropdown {
+      width: 90vw;
+      right: 5vw;
+      max-height: 40vh;
+    }
+  }
+
+</style>
+</head>
+<body>
+<header>
+  <div class="logo">Johnson Record</div>
+  <nav>
+    <ul>
+      <li><a href="index.html">Home</a></li>
+      <li><a href="about us.html">About Us</a></li>
+      <li><a href="albums.html">Albums</a></li>
+      <li><a href="sample.html">Samples</a></li>
+      <li><a href="contact.html" aria-current="page">Contact Us</a></li>
+    </ul>
+  <div class="cart-container" tabindex="0" aria-label="Shopping cart" role="button">
+    <svg class="cart-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+      <path d="M7 4h-2L3 2H1v2h2l3.6 7.59-1.35 2.44C5.16 14.37 5 14.68 5 15c0 1.1.9 2 2 2h12v-2H7.42c-.14 0-.25-.11-.25-.25 0-.04.01-.08.03-.11l.9-1.63h7.72c.75 0 1.41-.41 1.75-1.03l3.58-6.49-1.74-1-3.58 6.49H7z"/>
+    </svg>
+    <div class="cart-badge" id="cart-count" aria-live="polite" aria-atomic="true">0</div>
+    <div class="cart-dropdown" id="cart-dropdown" aria-label="Shopping cart items" role="region" aria-hidden="true">
+      <h4>Shopping Cart</h4>
+      <div id="cart-items" class="cart-items"></div>
+      <div class="cart-total" id="cart-total"></div>
+    </div>
+  </div>
+</header>
+<main>
+  <h1>Meet Our Artists</h1>
+  <section class="artist-grid" role="list">
+    <article class="artist-card" tabindex="0" role="listitem" aria-labelledby="artist1-name" aria-describedby="artist1-desc">
+      <img src="C:\Users\MiadC\Documents\Johnson Record\images\14153.jpg" alt="Picture of Survive Said The Prophet" class="artist-img" />
+      <div class="artist-overlay">
+        <h2 id="artist1-name" class="artist-name">Survive Said The Prophet</h2>
+        <p id="artist1-desc" class="artist-info">Creating nothing but amazing hits since 2011, mixing both Japanese and English together in perfect harmony.</p>
+        <a href="https://survivesaidtheprophet.com/" class="artist-btn" target="_blank" rel="noopener noreferrer">Visit Page</a>
+      </div>
+    </article>
+    <article class="artist-card" tabindex="0" role="listitem" aria-labelledby="artist2-name" aria-describedby="artist2-desc">
+      <img src="C:\Users\MiadC\Documents\Johnson Record\images\spyair-band.png" alt="Portrait of artist Luna Gray" class="artist-img" />
+      <div class="artist-overlay">
+        <h2 id="artist2-name" class="artist-name">SPYAIR</h2>
+        <p id="artist2-desc" class="artist-info">SPYAIR has been creating catchy music from Nagoya, Japan since 2005</p>
+        <a href="https://www.spyair.net/" class="artist-btn" target="_blank" rel="noopener noreferrer">Visit Page</a>
+      </div>
+    </article>
+    <article class="artist-card" tabindex="0" role="listitem" aria-labelledby="artist3-name" aria-describedby="artist3-desc">
+      <img src="C:\Users\MiadC\Documents\Johnson Record\images\People_In_The_Box.png" alt="People in the Box image" class="artist-img" />
+      <div class="artist-overlay">
+        <h2 id="artist3-name" class="artist-name">People In The Box</h2>
+        <p id="artist3-desc" class="artist-info">They have been creating masterpieces since their conception in 2003, Fukuoka, Japan</p>
+        <a href="https://peopleinthebox.com/" class="artist-btn" target="_blank" rel="noopener noreferrer">Visit Page</a>
+      </div>
+    </article>
+  </section>
+</main>
+<footer>
+  &copy; 2024 Johnson Record. All rights reserved.
+</footer>
+<script>
+  (() => {
+    const cartContainer = document.querySelector('.cart-container');
+    const cartDropdown = document.getElementById('cart-dropdown');
+    const cartCount = document.getElementById('cart-count');
+    const cartItemsContainer = document.getElementById('cart-items');
+    const cartTotalEl = document.getElementById('cart-total');
+
+    // Cart data stored in memory for demo
+    let cart = [];
+
+    // Some demo album data for adding to cart (in real life, would come from site)
+    const demoProducts = [
+      { id: 1, name: 'Echoes of Silence Album', price: 12.99 },
+      { id: 2, name: 'Midnight Drive Singles', price: 9.99 },
+      { id: 3, name: 'Alternate Rock Sampler', price: 7.49 }
+    ];
+
+    // Function to format price
+    function formatPrice(price) {
+      return '$' + price.toFixed(2);
+    }
+
+    // Render cart items
+    function renderCart() {
+      cartItemsContainer.innerHTML = '';
+      if (cart.length === 0) {
+        cartItemsContainer.innerHTML = '<div class="cart-empty">Your cart is empty.</div>';
+        cartTotalEl.textContent = '';
+        cartCount.textContent = '0';
+        return;
+      }
+      cart.forEach(item => {
+        const itemEl = document.createElement('div');
+        itemEl.className = 'cart-item';
+        itemEl.innerHTML = `
+          <span>${item.name}</span>
+          <span>
+            ${formatPrice(item.price)} 
+            <button class="remove-btn" aria-label="Remove ${item.name}" data-id="${item.id}">&times;</button>
+          </span>
+        `;
+        cartItemsContainer.appendChild(itemEl);
+      });
+      const total = cart.reduce((sum, item) => sum + item.price, 0);
+      cartTotalEl.textContent = 'Total: ' + formatPrice(total);
+      cartCount.textContent = cart.length.toString();
+    }
+
+    // Remove item event
+    cartItemsContainer.addEventListener('click', e => {
+      if (e.target.classList.contains('remove-btn')) {
+        const id = parseInt(e.target.getAttribute('data-id'), 10);
+        cart = cart.filter(item => item.id !== id);
+        renderCart();
+      }
+    });
+
+    // Toggle cart dropdown
+    function toggleCartDropdown() {
+      const isActive = cartDropdown.classList.contains('active');
+      if(isActive) {
+        cartDropdown.classList.remove('active');
+        cartDropdown.setAttribute('aria-hidden', 'true');
+      } else {
+        cartDropdown.classList.add('active');
+        cartDropdown.setAttribute('aria-hidden', 'false');
+      }
+    }
+
+    cartContainer.addEventListener('click', toggleCartDropdown);
+    cartContainer.addEventListener('keypress', e => {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        toggleCartDropdown();
+      }
+    });
+
+    // For demo: Add demo products to cart every 3 seconds so user can see it fill
+    // (Remove or comment out this block for production)
+    let demoIndex = 0;
+    setInterval(() => {
+      if (demoIndex < demoProducts.length) {
+        cart.push(demoProducts[demoIndex]);
+        renderCart();
+        demoIndex++;
+      }
+    }, 3000);
+
+    // Initial render
+    renderCart();
+
+    // Close cart if clicking outside
+    document.addEventListener('click', e => {
+      if (!cartContainer.contains(e.target)) {
+        cartDropdown.classList.remove('active');
+        cartDropdown.setAttribute('aria-hidden', 'true');
+      }
+    });
+  })();
+</script>
+</body>
+</html>
+

@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+<title>Johnson Record - Contact Us</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap');
+
+  /* Reset and base styles */
+  * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+  body {
+    font-family: 'Montserrat', sans-serif;
+    background: #121212;
+    color: #eee;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
+  a {
+    color: #e94560;
+    text-decoration: none;
+    transition: color 0.3s ease;
+  }
+  a:hover,
+  a:focus {
+    color: #ff3366;
+  }
+
+  /* Header */
+  header {
+    background-color: #1f1f1f;
+    padding: 15px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    border-bottom: 2px solid #e94560;
+  }
+
+  .logo {
+    font-weight: 700;
+    font-size: 1.4rem;
+    letter-spacing: 2px;
+    color: #e94560;
+    user-select: none;
+  }
+
+  nav {
+    flex-grow: 1;
+    text-align: center;
+  }
+
+  nav ul {
+    list-style: none;
+    display: inline-flex;
+    gap: 25px;
+  }
+  nav ul li {
+    font-weight: 600;
+    font-size: 1rem;
+  }
+  nav ul li a {
+    padding: 5px 8px;
+    border-radius: 4px;
+  }
+  nav ul li a:hover,
+  nav ul li a:focus {
+    background-color: #e94560;
+    color: #fff;
+  }
+  nav ul li a[aria-current="page"] {
+    background-color: #e94560;
+    color: #fff;
+    cursor: default;
+  }
+
+  /* Shopping Cart */
+  .cart-container {
+    position: relative;
+    cursor: pointer;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .cart-icon {
+    fill: #e94560;
+    width: 28px;
+    height: 28px;
+  }
+  .cart-badge {
+    position: absolute;
+    top: -6px;
+    right: -6px;
+    background: #ff3366;
+    color: white;
+    font-size: 0.65rem;
+    font-weight: 700;
+    border-radius: 50%;
+    padding: 2px 6px;
+    user-select: none;
+    pointer-events: none;
+  }
+
+  /* Cart dropdown */
+  .cart-dropdown {
+    position: absolute;
+    top: 40px;
+    right: 0;
+    width: 260px;
+    max-height: 300px;
+    overflow-y: auto;
+    background: #222;
+    border: 1px solid #e94560;
+    border-radius: 6px;
+    box-shadow: 0 10px 20px rgba(233, 69, 96, 0.4);
+    display: none;
+    flex-direction: column;
+    z-index: 101;
+  }
+  .cart-dropdown.active {
+    display: flex;
+  }
+  .cart-dropdown h4 {
+    padding: 12px;
+    border-bottom: 1px solid #e94560;
+    font-weight: 700;
+    font-size: 1.1rem;
+  }
+  .cart-item {
+    padding: 10px 15px;
+    border-bottom: 1px solid #333;
+    font-size: 0.9rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .cart-item:last-child {
+    border-bottom: none;
+  }
+  .cart-empty {
+    padding: 15px;
+    color: #bbb;
+    font-style: italic;
+    text-align: center;
+  }
+  .cart-total {
+    padding: 12px 15px;
+    font-weight: 700;
+    text-align: right;
+    border-top: 1px solid #e94560;
+    font-size: 1rem;
+  }
+  .remove-btn {
+    background: transparent;
+    border: none;
+    color: #ff3366;
+    cursor: pointer;
+    font-weight: 700;
+    font-size: 1rem;
+    line-height: 1;
+    user-select: none;
+  }
+  .remove-btn:hover,
+  .remove-btn:focus {
+    color: #e94560;
+  }
+
+  /* Main Content */
+  main {
+    flex-grow: 1;
+    max-width: 500px;
+    margin: 0 auto;
+    padding: 60px 20px 80px;
+  }
+
+  main h1 {
+    color: #e94560;
+    font-size: 2.5rem;
+    margin-bottom: 30px;
+    text-align: center;
+  }
+
+  form {
+    background: #222;
+    padding: 30px 25px;
+    border-radius: 12px;
+    box-shadow: 0 8px 24px rgba(233, 69, 96, 0.5);
+  }
+
+  label {
+    display: block;
+    font-weight: 700;
+    margin-bottom: 8px;
+    color: #ff3366;
+  }
+
+  input[type="email"],
+  textarea {
+    width: 100%;
+    padding: 12px 15px;
+    margin-bottom: 20px;
+    border-radius: 8px;
+    border: none;
+    font-size: 1rem;
+    background: #1f1f1f;
+    color: #eee;
+    resize: vertical;
+  }
+  input[type="email"]::placeholder,
+  textarea::placeholder {
+    color: #999;
+  }
+
+  textarea {
+    min-height: 120px;
+  }
+
+  button[type="submit"] {
+    background-color: #e94560;
+    color: #fff;
+    font-weight: 700;
+    font-size: 1.1rem;
+    padding: 14px 0;
+    border: none;
+    border-radius: 30px;
+    width: 100%;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    user-select: none;
+  }
+  button[type="submit"]:hover,
+  button[type="submit"]:focus {
+    background-color: #ff3366;
+    outline: none;
+  }
+
+  .thanks-message {
+    margin-top: 20px;
+    color: #ff3366;
+    font-weight: 700;
+    text-align: center;
+    font-size: 1.1rem;
+  }
+
+  /* Accessibility focus */
+  input[type="email"]:focus,
+  textarea:focus,
+  button:focus {
+    outline: 3px solid #ff3366;
+    outline-offset: 3px;
+  }
+
+  @media (max-width: 400px) {
+    main {
+      padding: 40px 15px 70px;
+      max-width: 90vw;
+    }
+  }
+</style>
+</head>
+<body>
+<header>
+  <div class="logo">Johnson Record</div>
+  <nav>
+    <ul>
+      <li><a href="index.html">Home</a></li>
+      <li><a href="about us.html">About Us</a></li>
+      <li><a href="albums.html">Albums</a></li>
+      <li><a href="sample.html">Samples</a></li>
+      <li><a href="contact.html" aria-current="page">Contact Us</a></li>
+    </ul>
+  </nav>
+  <div class="cart-container" tabindex="0" aria-label="Shopping cart" role="button">
+    <svg class="cart-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+      <path d="M7 4h-2L3 2H1v2h2l3.6 7.59-1.35 2.44C5.16 14.37 5 14.68 5 15c0 1.1.9 2 2 2h12v-2H7.42c-.14 0-.25-.11-.25-.25 0-.04.01-.08.03-.11l.9-1.63h7.72c.75 0 1.41-.41 1.75-1.03l3.58-6.49-1.74-1-3.58 6.49H7z"></path>
+    </svg>
+    <div class="cart-badge" id="cart-count" aria-live="polite" aria-atomic="true">0</div>
+    <div class="cart-dropdown" id="cart-dropdown" aria-label="Shopping cart items" role="region" aria-hidden="true">
+      <h4>Shopping Cart</h4>
+      <div id="cart-items" class="cart-items"></div>
+      <div class="cart-total" id="cart-total"></div>
+    </div>
+  </div>
+</header>
+<main>
+  <h1>Contact Us</h1>
+  <form id="contact-form" novalidate>
+    <label for="email">Email Address:</label>
+    <input type="email" id="email" name="email" placeholder="your.email@example.com" required aria-required="true" />
+
+    <label for="message">Why do you want to contact us?</label>
+    <textarea id="message" name="message" placeholder="Write your message here..." required aria-required="true"></textarea>
+
+    <button type="submit">Send Message</button>
+    <div class="thanks-message" id="thanks-message" role="alert" aria-live="polite" style="display:none;"></div>
+  </form>
+</main>
+<footer>
+  &copy; 2024 Johnson Record. All rights reserved.
+</footer>
+<script>
+  (() => {
+    // Cart script: same as previous pages
+    const cartContainer = document.querySelector('.cart-container');
+    const cartDropdown = document.getElementById('cart-dropdown');
+    const cartCount = document.getElementById('cart-count');
+    const cartItemsContainer = document.getElementById('cart-items');
+    const cartTotalEl = document.getElementById('cart-total');
+
+    let cart = [];
+
+    function formatPrice(price) {
+      return '£' + price.toFixed(2);
+    }
+
+    function renderCart() {
+      cartItemsContainer.innerHTML = '';
+      if (cart.length === 0) {
+        cartItemsContainer.innerHTML = '<div class="cart-empty">Your cart is empty.</div>';
+        cartTotalEl.textContent = '';
+        cartCount.textContent = '0';
+        return;
+      }
+      const counts = {};
+      cart.forEach(item => {
+        counts[item.id] = counts[item.id] || {...item, qty:0};
+        counts[item.id].qty++;
+      });
+      Object.values(counts).forEach(item => {
+        const itemEl = document.createElement('div');
+        itemEl.className = 'cart-item';
+        itemEl.innerHTML = `
+          <span>${item.name} x${item.qty}</span>
+          <span>
+            ${formatPrice(item.price * item.qty)} 
+            <button class="remove-btn" aria-label="Remove one ${item.name}" data-id="${item.id}">&times;</button>
+          </span>
+        `;
+        cartItemsContainer.appendChild(itemEl);
+      });
+      const total = cart.reduce((sum, item) => sum + item.price, 0);
+      cartTotalEl.textContent = 'Total: ' + formatPrice(total);
+      cartCount.textContent = cart.length.toString();
+    }
+
+    cartItemsContainer.addEventListener('click', e => {
+      if (e.target.classList.contains('remove-btn')) {
+        const id = e.target.getAttribute('data-id');
+        const idx = cart.findIndex(item => item.id === id);
+        if (idx !== -1) {
+          cart.splice(idx,1);
+          renderCart();
+        }
+      }
+    });
+
+    function toggleCartDropdown() {
+      const isActive = cartDropdown.classList.contains('active');
+      if (isActive) {
+        cartDropdown.classList.remove('active');
+        cartDropdown.setAttribute('aria-hidden', 'true');
+      } else {
+        cartDropdown.classList.add('active');
+        cartDropdown.setAttribute('aria-hidden', 'false');
+      }
+    }
+
+    cartContainer.addEventListener('click', toggleCartDropdown);
+    cartContainer.addEventListener('keypress', e => {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        toggleCartDropdown();
+      }
+    });
+
+    renderCart();
+
+    document.addEventListener('click', e => {
+      if (!cartContainer.contains(e.target)) {
+        cartDropdown.classList.remove('active');
+        cartDropdown.setAttribute('aria-hidden', 'true');
+      }
+    });
+
+    // Contact form form validation and submission
+    const form = document.getElementById('contact-form');
+    const thanksMessage = document.getElementById('thanks-message');
+
+    form.addEventListener('submit', e => {
+      e.preventDefault();
+      thanksMessage.style.display = 'none';
+      const email = form.email.value.trim();
+      const message = form.message.value.trim();
+
+      // Simple email regex for validation
+      const emailValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+      if (!emailValid) {
+        alert('Please enter a valid email address.');
+        form.email.focus();
+        return;
+      }
+      if (message.length === 0) {
+        alert('Please enter your message.');
+        form.message.focus();
+        return;
+      }
+
+      // For demo: just reset form and show thank you
+      form.reset();
+      thanksMessage.textContent = "Thank you for contacting Johnson Record! We'll get back to you soon.";
+      thanksMessage.style.display = 'block';
+    });
+  })();
+</script>
+</body>
+</html>
